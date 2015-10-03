@@ -34,7 +34,6 @@ public class SanPhamUI extends JFrame{
 		pnDown1, pnDown2, pnDown3, pnDown4;
 //	DsSanPham dsSP = SanPhamUtils.taoDsSanPham();
 	DsSPham dsSP = SPhamUtils.importDsSanPhamFromFile();
-	
 	public void addControls() {
 		Container con = getContentPane();con.add(pn = new JPanel());
 		pn.setLayout(new BorderLayout());
@@ -77,12 +76,18 @@ public class SanPhamUI extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				if(SPhamUtils.isNumber(txtGiaSP.getText())){
-					String maMax = dsSP.getDsSPham().get((dsSP.size()-1)).getMaSP();
-					StringTokenizer token = new StringTokenizer(maMax,"SP");
 					int soMax=0;String taoMa = "SP";
-					if(token.hasMoreTokens())soMax = Integer.parseInt(token.nextToken());
-					if(soMax<10)taoMa += "0"+(soMax+1);
-					else taoMa +=(soMax+1);
+					if(SPhamUtils.importDsSanPhamFromFile().getDsSPham().isEmpty())
+						taoMa = "SP01";
+					else{
+						String maMax = dsSP.getDsSPham().get((dsSP.size()-1)).getMaSP();
+						StringTokenizer token = new StringTokenizer(maMax,"SP");
+						if(token.hasMoreTokens())
+							soMax = Integer.parseInt(token.nextToken());
+						if(soMax<10)
+							taoMa += "0"+(soMax+1);
+						else taoMa +=(soMax+1);
+					}
 					SanPham sp = new SanPham(taoMa, txtTenSP.getText(), 
 							Integer.parseInt(txtGiaSP.getText()), txtHinhSP.getText());
 					dsSP.addSPham(sp);

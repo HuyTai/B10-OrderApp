@@ -42,12 +42,12 @@ public class OrderUI extends JFrame{
 	JLabel lblImage,lblTongTien;
 	JTextField	txtSoLg;
 	JButton	btnAdd,btnTinhTien;
+	
 	JPanel	pn,pnNorth,pnSouth,pnSouthR,pnCenter,pnCentUp,
 			pnCtDown,pnDown1,pnDown2,pnDown3,pnDown4;
 	DsSPham dsSP = SPhamUtils.importDsSanPhamFromFile();
-	DsOrder dsOdr = new DsOrder();
-//	DsPThu dsPT = new DsPThu();
 	DsPThu dsPT = PThuUtils.importDsPThuFromFile();
+	DsOrder dsOdr = new DsOrder();
 	public void addControls() {
 		Container con = getContentPane();con.add(pn = new JPanel());
 		pn.setLayout(new BorderLayout());
@@ -74,6 +74,13 @@ public class OrderUI extends JFrame{
 		pnDown2.add(new JLabel("Số lượng    "));
 		pnDown3.add(new JLabel("Đơn giá    "));
 		pnDown4.add(new JLabel("Thành tiền    "));
+//		try {
+//			BufferedImage image = ImageIO.read
+//					(ClassLoader.getSystemResource("Socola sua(50x50).jpg"));
+//			btnTinhTien.setIcon(new ImageIcon(image));
+//		} catch (IOException e) {
+//			JOptionPane.showMessageDialog(null, "Không tìm thấy file hình");
+//		}
 	}
 	public void addEvents() {
 		btnAdd.addActionListener(new ActionListener() {
@@ -104,23 +111,27 @@ public class OrderUI extends JFrame{
 		btnTinhTien.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				int tongTien=0;
-				for (Ordered odr3 : dsOdr.getDsOdr()) {
-					tongTien+=odr3.getTTien();
-				}JOptionPane.showMessageDialog(null, "Tổng tiền là: "+tongTien);
-				pnDown1.removeAll();pnDown2.removeAll();
-				pnDown3.removeAll();pnDown4.removeAll();
-				pnSouthR.removeAll();
-				pnCtDown.revalidate();pnCtDown.repaint();
-				pnDown1.add(new JLabel("Tên sản phẩm    "));
-				pnDown2.add(new JLabel("Số lượng    "));
-				pnDown3.add(new JLabel("Đơn giá    "));
-				pnDown4.add(new JLabel("Thành tiền    "));
-				pnCtDown.revalidate();pnCtDown.repaint();
-				String ID = PThuUtils.creatID(String.valueOf(tongTien));
-				dsPT.addDsOrder(ID, dsOdr);
-				PThuUtils.exportDsPThuToFile(dsPT);
-				dsOdr = new DsOrder();
+				if(dsOdr.getDsOdr().isEmpty())
+					JOptionPane.showMessageDialog(null, "Chưa chọn món");
+				else{
+					int tongTien=0;
+					for (Ordered odr3 : dsOdr.getDsOdr()) {
+						tongTien+=odr3.getTTien();
+					}JOptionPane.showMessageDialog(null, "Tổng tiền là: "+tongTien);
+					pnDown1.removeAll();pnDown2.removeAll();
+					pnDown3.removeAll();pnDown4.removeAll();
+					pnSouthR.removeAll();
+					pnCtDown.revalidate();pnCtDown.repaint();
+					pnDown1.add(new JLabel("Tên sản phẩm    "));
+					pnDown2.add(new JLabel("Số lượng    "));
+					pnDown3.add(new JLabel("Đơn giá    "));
+					pnDown4.add(new JLabel("Thành tiền    "));
+					pnCtDown.revalidate();pnCtDown.repaint();
+					String ID = PThuUtils.creatID(String.valueOf(tongTien));
+					dsPT.addDsOrder(ID, dsOdr);
+					PThuUtils.exportDsPThuToFile(dsPT);
+					dsOdr = new DsOrder();
+				}
 			}
 		});
 		cbxSanPham.addActionListener(new ActionListener() {

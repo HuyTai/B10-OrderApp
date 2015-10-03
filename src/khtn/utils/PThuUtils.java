@@ -73,24 +73,34 @@ public class PThuUtils {
 		return String.valueOf(ID);
 	}
 	public static String getDay(String pt) {
-		String[]keyToken = pt.split("#");
-		return keyToken[0];
+		String[]dayToken = pt.split("#");
+		return dayToken[0];
 	}
 	public static String getTime(String pt) {
-		String[]keyToken = pt.split("#");
-		return keyToken[1];
+		String[]timeToken = pt.split("#");
+		return timeToken[1];
 	}
 	public static String getTong(String pt) {
-		String[]keyToken = pt.split("#");
-		return keyToken[2];
+		String[]tongToken = pt.split("#");
+		return tongToken[2];
 	}
 	public static String getID(String pt) {
-		String[]keyToken = pt.split("#");
-		return keyToken[0]+"#"+keyToken[1]+"#"+keyToken[2]+"#";
+		String[]IDToken = pt.split("#");
+		return IDToken[0]+"#"+IDToken[1]+"#"+IDToken[2]+"#";
 	}
 	public static String getCTiet(String pt) {
-		String[]keyToken = pt.split("#");
-		return keyToken[3].replaceAll("=DsOrder ", "");
+		String[]cTietToken = pt.split("#");
+		return cTietToken[3].replaceAll("=DsOrder ", "");
+	}
+	public static String getTenSP(String pt) {
+		String[]cTietPhieu = pt.split("#");
+		String[]moiSP = cTietPhieu[3].replaceAll("=DsOrder ", "").split(", ");
+		String tenSP = "";
+		for (String cTietMoiSP : moiSP) {
+			String[]phanCTiet = cTietMoiSP.split("=");
+			tenSP = tenSP + phanCTiet[0]+"), ";
+		}
+		return (tenSP+"]").replaceAll(", ]","]");
 	}
 	public static boolean isNumber(String number) {
 		try{

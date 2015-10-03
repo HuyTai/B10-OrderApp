@@ -32,8 +32,8 @@ public class PhieuThuUI extends JFrame{
 	JLabel lblTitle,lblTong,lblChon;
 	JComboBox<String> cbxDsPT;
 	JButton btnXoaPT;
-	DsPThu dspt = PThuUtils.importDsPThuFromFile();
-	String[]arrDsPT = PThuUtils.hashToArr(dspt);
+	DsPThu dsPT = PThuUtils.importDsPThuFromFile();
+	String[]arrDsPT = PThuUtils.hashToArr(dsPT);
 	String chonPT = "";
 	public void addControls() {
 		Container con = getContentPane();con.add(pn = new JPanel());
@@ -62,8 +62,8 @@ public class PhieuThuUI extends JFrame{
 		for (String pt : arrDsPT) {
 			pnDwnDate.add(new JLabel(PThuUtils.getDay(pt)+"   "));
 			pnDwnTime.add(new JLabel(PThuUtils.getTime(pt)+"   "));
-			pnDwnTong.add(new JLabel(PThuUtils.getTong(pt)+"   "));
-			pnDwnCTiet.add(new JLabel(PThuUtils.getCTiet(pt)+"   "));
+			pnDwnTong.add(new JLabel("  "+PThuUtils.getTong(pt)+"   "));
+			pnDwnCTiet.add(new JLabel(PThuUtils.getTenSP(pt)+"   "));
 		}
 	}
 	public void addEvents() {
@@ -76,8 +76,8 @@ public class PhieuThuUI extends JFrame{
 		btnXoaPT.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				if(dspt.getDsPT().containsKey(chonPT)){
-					dspt.getDsPT().remove(chonPT);
+				if(dsPT.getDsPT().containsKey(chonPT)){
+					dsPT.getDsPT().remove(chonPT);
 					pnDwnDate.removeAll();pnDwnTime.removeAll();
 					pnDwnTong.removeAll();pnDwnCTiet.removeAll();
 					pnCenDwn.revalidate();pnCenDwn.repaint();
@@ -86,15 +86,20 @@ public class PhieuThuUI extends JFrame{
 					pnDwnTong.add(new JLabel("Tổng tiền     "));
 					pnDwnCTiet.add(new JLabel(" Chi tiết  "));
 					pnCenDwn.revalidate();pnCenDwn.repaint();
-					PThuUtils.exportDsPThuToFile(dspt);
-					dspt = PThuUtils.importDsPThuFromFile();
-					arrDsPT = PThuUtils.hashToArr(dspt);
+					PThuUtils.exportDsPThuToFile(dsPT);
+					dsPT = PThuUtils.importDsPThuFromFile();
+					arrDsPT = PThuUtils.hashToArr(dsPT);
 					for (String pt : arrDsPT) {
 						pnDwnDate.add(new JLabel(PThuUtils.getDay(pt)+"   "));
 						pnDwnTime.add(new JLabel(PThuUtils.getTime(pt)+"   "));
-						pnDwnTong.add(new JLabel(PThuUtils.getTong(pt)+"   "));
-						pnDwnCTiet.add(new JLabel(PThuUtils.getCTiet(pt)+"   "));
+						pnDwnTong.add(new JLabel("  "+PThuUtils.getTong(pt)+"   "));
+						pnDwnCTiet.add(new JLabel(PThuUtils.getTenSP(pt)+"   "));
 					}pnCenDwn.revalidate();pnCenDwn.repaint();
+					pnCenUp.removeAll();
+					pnCenUp.revalidate();pnCenUp.repaint();
+					pnCenUp.add(lblChon = new JLabel("Chọn phiếu muốn xóa: "));
+					pnCenUp.add(cbxDsPT = new JComboBox<>(PThuUtils.dsID(arrDsPT)));
+					pnCenUp.add(btnXoaPT = new JButton("Xóa phiếu"));
 				}
 			}
 		});
