@@ -58,9 +58,9 @@ public class Ordered implements Serializable{
 	}
 	@Override
 	public String toString() {
-		return tenOdr + " "
-				+ soLg + " " + dGia
-				+ " " + tTien;
+		return tenOdr + " ("
+				+ soLg + "x" + (dGia/1000)
+				+ "=" + (tTien/1000)+")";
 	}
 	
 }
